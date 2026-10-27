@@ -200,3 +200,17 @@ section.alt{background:#101215}
 .request-card .form{margin-top:18px}
 .card.request-card{background:var(--sand);color:var(--ink);border-color:transparent}
 .footer .fine-solo{margin-top:0;border-top:0;padding-top:0}
+
+/* Grand opening offer strip + partners section */
+.offer-strip{background:#15130f;border-bottom:1px solid #d3aa7240;padding:14px 0;font-size:13px;line-height:1.7;color:#d8d1c4}
+.offer-strip[hidden]{display:none}
+.offer-strip p{margin:0}
+.offer-strip strong{color:var(--accent-2);letter-spacing:.08em}
+.offer-strip a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.offer-strip a:hover{color:var(--accent-2)}
+.offer-tag{display:inline-block;margin-right:10px;padding:2px 8px;border:1px solid var(--accent);color:var(--accent);font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;vertical-align:1px}
+.partner-honest{color:#aaa7a1;font-size:13px;border-left:2px solid var(--accent);padding-left:14px}
+.partner-list{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:12px}
+.partner-list li{border:1px solid #ffffff1a;padding:16px 18px 16px 42px;font-size:13.5px;color:#cfcbc4;background:#121418;position:relative;line-height:1.6}
+.partner-list li::before{content:"";position:absolute;left:18px;top:23px;width:10px;height:1px;background:var(--accent)}
+#partners+section{border-top:1px solid #ffffff12}
