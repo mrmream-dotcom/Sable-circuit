@@ -1,0 +1,4 @@
+Self-hosted web fonts (subset to Latin, converted to WOFF2):
+- Manrope — Copyright The Manrope Project Authors (https://github.com/sharanda/manrope)
+- DM Sans — Copyright The DM Sans Project Authors (https://github.com/googlefonts/dm-fonts)
+Both are licensed under the SIL Open Font License, Version 1.1: https://openfontlicense.org
