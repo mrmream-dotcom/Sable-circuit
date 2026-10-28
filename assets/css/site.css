@@ -214,3 +214,30 @@ section.alt{background:#101215}
 .partner-list li{border:1px solid #ffffff1a;padding:16px 18px 16px 42px;font-size:13.5px;color:#cfcbc4;background:#121418;position:relative;line-height:1.6}
 .partner-list li::before{content:"";position:absolute;left:18px;top:23px;width:10px;height:1px;background:var(--accent)}
 #partners+section{border-top:1px solid #ffffff12}
+
+/* Quiet colophon credit. Same tone as the legal line, not a second call to action. */
+.footer .fine .site-credit a{color:#85817a;text-decoration:underline;text-decoration-color:#85817a55;text-underline-offset:2px}
+.footer .fine .site-credit a:hover{color:#cfc6b8;text-decoration-color:#cfc6b866}
+
+/* Brightside credit page. The built-by headline is the dominant element. */
+.page.built-by{padding-top:72px}
+.page.built-by .wrap{max-width:1080px}
+.page.built-by .built-logo{display:block;width:min(420px,100%);height:auto;margin:8px 0 32px}
+.page.built-by h1{font:800 clamp(40px,5.2vw,68px)/1.02 Manrope,sans-serif;letter-spacing:-.05em;margin:0 0 32px;max-width:16em;color:var(--paper)}
+.page.built-by .built-blurb{max-width:640px}
+.page.built-by .built-blurb p{font-size:17px;margin:0}
+.page.built-by .built-hook{max-width:640px;margin-top:64px;padding-top:36px;border-top:1px solid #ffffff16}
+.page.built-by .built-hook h2{font:700 clamp(24px,2.6vw,32px)/1.25 Manrope,sans-serif;letter-spacing:-.03em;margin:0 0 12px;color:var(--paper)}
+.page.built-by .built-hook p{margin:0}
+.page.built-by .built-cta{margin:26px 0 16px}
+.page.built-by .built-cta .btn{white-space:normal;line-height:1.35;padding-top:14px;padding-bottom:14px;text-align:center}
+.page.built-by .built-founder{margin-top:22px;font-size:12px;line-height:1.5;color:#8c887f;letter-spacing:.02em}
+@media(max-width:600px){
+  .page.built-by{padding-top:48px;padding-bottom:72px}
+  .page.built-by h1{font-size:clamp(36px,10.5vw,44px);max-width:none}
+  .page.built-by h1 .built-break{display:none}
+  .page.built-by .built-logo{width:min(300px,100%);margin-bottom:22px}
+  .page.built-by .built-blurb p{font-size:15.5px}
+  .page.built-by .built-hook{margin-top:48px}
+  .page.built-by .built-cta .btn{width:100%}
+}

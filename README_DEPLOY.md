@@ -10,9 +10,11 @@ This is a plain static site. There is no build step and no framework. It is serv
 |---|---|
 | `index.html` | Home page: services, budgets, process, trade, FAQ and the inquiry form |
 | `privacy/index.html` | Privacy notice, contact disclosure and the privacy-request form |
+| `built-by/index.html` | Credit page for Brightside Local Marketing, linked from the footer |
 | `thank-you/index.html` | Form redirect target (`noindex`) |
 | `404.html` | Served by GitHub Pages for missing URLs. It sets a `<base>` derived from `SITE_URL` so its links work at any depth |
 | `assets/css`, `assets/js`, `assets/fonts`, `assets/brand` | Styles, form script, self-hosted fonts (SIL OFL) and icons |
+| `assets/brightside/` | Brightside logo files, including `icon@2x.png` at `/assets/brightside/icon@2x.png` |
 | `favicon.svg`, `favicon-32.png`, `favicon-16.png`, `favicon.ico`, `apple-touch-icon.png`, `site.webmanifest`, `og-image.png` | Icons and the social sharing image (1200×630) |
 | `robots.txt`, `sitemap.xml` | SEO files (they contain the `SITE_URL` token) |
 | `.nojekyll` | Tells GitHub Pages to serve the files as they are, with no Jekyll processing |
@@ -54,7 +56,7 @@ What the integration already does:
 - **Subject.** Every notification subject starts with `[Sable Circuit Lead]`. With JavaScript on, the script appends location, experience and name, e.g. `[Sable Circuit Lead] New private inquiry — Dubai · Racing simulator · Name`. Without JavaScript the subject is `[Sable Circuit Lead] New private inquiry`. Privacy requests use `[Sable Circuit Lead] Privacy request`.
 - **Spam protection.** A name and a valid email are required before anything is sent. Those fields use `required` (the email also has a pattern) so a browser with JavaScript off will not post a blank form. `assets/js/inquiry.js` enforces the same checks, including when something calls `form.submit()`, and it does not post or record a conversion unless they pass. The form includes Web3Forms' `botcheck` honeypot: a checkbox hidden with `display: none`. Web3Forms rejects the submission server-side if that box is checked. Their free server-side spam filter still applies. hCaptcha is free and uses a Web3Forms site key, but it loads a third-party script and has to be turned on in the Web3Forms dashboard, so it is not used. reCAPTCHA, Cloudflare Turnstile, and domain restriction are paid. A bot that posts the public access key directly, with every field empty and `botcheck` unchecked, is not rejected by the honeypot.
 - **Redirect.** Without JavaScript, Web3Forms redirects to `SITE_URL/thank-you/`. With JavaScript, the form submits by `fetch` and shows an inline success state. If the network fails, it falls back to a normal POST.
-- **Privacy.** The access key is public by design and does not reveal the inbox. **The personal Gmail address does not appear anywhere in the site source.**
+- **Privacy.** The access key is public by design and does not reveal the inbox. The inquiry notification address does not appear in the site source. The Brightside credit page lists that studio’s own contact address.
 - **Reply-to.** Web3Forms uses the visitor's `email` field as the reply-to.
 
 Free-plan limits, as published 27 Oct 2026:
