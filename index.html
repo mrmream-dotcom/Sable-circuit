@@ -310,15 +310,15 @@
       <div class="form-wrap" id="form-wrap">
         <!-- Form backend: Web3Forms (https://web3forms.com). The access key is configured.
                The key is public by design and does not reveal the inbox. -->
-          <form id="leadform" class="form" name="inquiry" method="POST" action="https://api.web3forms.com/submit" accept-charset="UTF-8" novalidate>
+          <form id="leadform" class="form" name="inquiry" method="POST" action="https://api.web3forms.com/submit" accept-charset="UTF-8">
           <input type="hidden" name="access_key" value="091cd955-1ba2-4acc-b35f-6c7724abb203">
           <input type="hidden" name="subject" value="[Sable Circuit Lead] New private inquiry">
           <input type="hidden" name="from_name" value="Sable Circuit website">
           <input type="hidden" name="form_type" value="Private inquiry">
           <input type="hidden" name="redirect" value="https://sable-circuit.com/thank-you/?form=inquiry">
-          <p class="hp" aria-hidden="true"><label>Leave this unchecked <input type="checkbox" name="botcheck" tabindex="-1"></label></p>
-          <div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" required autocomplete="name" maxlength="120" placeholder="Full name"><span class="err">Please enter your name.</span></div>
-          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" maxlength="200" placeholder="you@example.com"><span class="err">Please enter a valid email address.</span></div>
+          <input type="checkbox" name="botcheck" class="hp" style="display: none;" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" required autocomplete="name" maxlength="120" pattern=".*\S.*" placeholder="Full name"><span class="err">Please enter your name.</span></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" maxlength="200" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}" placeholder="you@example.com"><span class="err">Please enter a valid email address.</span></div>
           <div class="field"><label for="phone">Phone / WhatsApp <span class="opt">(optional)</span></label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" placeholder="+971 …"></div>
           <div class="field"><label for="role">You are</label><select id="role" name="role" required><option value="">Select one</option><option>Private client</option><option>Interior designer</option><option>AV integrator</option><option>Architect</option><option>Concierge / family office</option><option>Property developer</option><option>Other</option></select><span class="err">Please choose one.</span></div>
           <div class="field"><label for="location">Project location</label><select name="location" id="location" required><option value="">Select a location</option><option>Dubai</option><option>Abu Dhabi</option><option>Riyadh</option><option>Jeddah</option><option>Doha</option><option>Other GCC location</option><option>Outside the GCC</option></select><span class="err">Please choose a location.</span></div>
@@ -329,7 +329,7 @@
           <div class="field full"><label for="codeword">Code word <span class="opt">(optional)</span></label><input id="codeword" name="code_word" type="text" maxlength="40" autocomplete="off" placeholder="If you have one"></div>
           <div class="field full"><label for="notes">The vision</label><textarea name="notes" id="notes" required minlength="10" maxlength="4000" placeholder="Room size, racing or flight, motion, displays, how the space should feel, design team involved…"></textarea><span class="err">Please tell us a little about the project (at least 10 characters).</span></div>
           <label class="consent"><input type="checkbox" id="consent" name="consent" value="yes" required><span>I agree that Sable Circuit may store and use these details to respond to my inquiry, as described in the <a href="privacy/">privacy notice</a>.</span></label>
-          <div class="form-actions"><button class="btn" type="submit" id="submit">Send private inquiry</button><p class="form-help">No payment or commitment. We reply by email.</p></div>
+          <div class="form-actions"><button class="btn" type="submit">Send private inquiry</button><p class="form-help">No payment or commitment. We reply by email.</p></div>
           <p class="status" id="status" role="status" aria-live="polite"></p>
         </form>
         <div class="success" id="success" tabindex="-1">

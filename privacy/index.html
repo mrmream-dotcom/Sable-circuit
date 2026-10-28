@@ -89,18 +89,18 @@
       <span class="eyebrow">Privacy request</span>
       <h2>Ask us to access, correct or delete your data</h2>
       <div class="form-wrap" id="form-wrap">
-        <form id="leadform" class="form" name="privacy-request" method="POST" action="https://api.web3forms.com/submit" accept-charset="UTF-8" novalidate>
+        <form id="leadform" class="form" name="privacy-request" method="POST" action="https://api.web3forms.com/submit" accept-charset="UTF-8">
           <input type="hidden" name="access_key" value="091cd955-1ba2-4acc-b35f-6c7724abb203">
           <input type="hidden" name="subject" value="[Sable Circuit Lead] Privacy request">
           <input type="hidden" name="from_name" value="Sable Circuit website">
           <input type="hidden" name="form_type" value="Privacy request">
           <input type="hidden" name="redirect" value="https://sable-circuit.com/thank-you/">
-          <p class="hp" aria-hidden="true"><label>Leave this unchecked <input type="checkbox" name="botcheck" tabindex="-1"></label></p>
-          <div class="field"><label for="pr-name">Your name</label><input id="pr-name" name="name" type="text" required autocomplete="name" maxlength="120"><span class="err">Please enter your name.</span></div>
-          <div class="field"><label for="pr-email">Email used for your inquiry</label><input id="pr-email" name="email" type="email" required autocomplete="email" maxlength="200"><span class="err">Please enter a valid email address.</span></div>
+          <input type="checkbox" name="botcheck" class="hp" style="display: none;" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="field"><label for="pr-name">Your name</label><input id="pr-name" name="name" type="text" required autocomplete="name" maxlength="120" pattern=".*\S.*"><span class="err">Please enter your name.</span></div>
+          <div class="field"><label for="pr-email">Email used for your inquiry</label><input id="pr-email" name="email" type="email" required autocomplete="email" maxlength="200" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}"><span class="err">Please enter a valid email address.</span></div>
           <div class="field full"><label for="pr-type">Request</label><select id="pr-type" name="request" required><option value="">Select one</option><option>Delete my data</option><option>Send me a copy of my data</option><option>Correct my data</option><option>Other privacy question</option></select><span class="err">Please choose a request.</span></div>
           <div class="field full"><label for="pr-notes">Details <span class="opt">(optional)</span></label><textarea id="pr-notes" name="notes" maxlength="2000"></textarea></div>
-          <div class="form-actions"><button class="btn" type="submit" id="submit">Send request</button></div>
+          <div class="form-actions"><button class="btn" type="submit">Send request</button></div>
           <p class="status" id="status" role="status" aria-live="polite"></p>
         </form>
         <div class="success" id="success" tabindex="-1"><span class="eyebrow">Received</span><h3>Request received.</h3><p>We will reply by email within 30 days, and usually much sooner.</p></div>
