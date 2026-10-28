@@ -8,18 +8,17 @@
   <meta name="theme-color" content="#0a0c0f">
   <meta name="color-scheme" content="dark">
   <meta name="robots" content="index,follow">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://www.google.com https://bzrcdn.openai.com; style-src 'self'; img-src 'self' data: https://www.googletagmanager.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://www.google.com https://www.googleadservices.com https://bzr.openai.com; font-src 'self'; connect-src 'self' https://api.web3forms.com https://www.googletagmanager.com https://www.google.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://www.googleadservices.com https://bzr.openai.com https://bzrcdn.openai.com; frame-src https://www.googletagmanager.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <!-- Canonical: add once the final domain is known (replace https://mrmream-dotcom.github.io/Sable-circuit):
-  <link rel="canonical" href="https://mrmream-dotcom.github.io/Sable-circuit/"> -->
+  <link rel="canonical" href="https://sable-circuit.com/">
 
-  <!-- Open Graph / Twitter. https://mrmream-dotcom.github.io/Sable-circuit is a token replaced once before publishing (tools/replace_tokens.sh, see README_DEPLOY.md). -->
+  <!-- Open Graph / Twitter. -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Sable Circuit">
   <meta property="og:title" content="Sable Circuit — Private Simulation Atelier">
   <meta property="og:description" content="Design, specification and coordination for bespoke racing and flight simulation rooms in the UAE, Saudi Arabia and Qatar.">
-  <meta property="og:url" content="https://mrmream-dotcom.github.io/Sable-circuit/">
-  <meta property="og:image" content="https://mrmream-dotcom.github.io/Sable-circuit/og-image.png">
+  <meta property="og:url" content="https://sable-circuit.com/">
+  <meta property="og:image" content="https://sable-circuit.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Sable Circuit — Private Simulation Atelier brand graphic">
@@ -27,7 +26,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Sable Circuit — Private Simulation Atelier">
   <meta name="twitter:description" content="Design, specification and coordination for bespoke racing and flight simulation rooms in the UAE, Saudi Arabia and Qatar.">
-  <meta name="twitter:image" content="https://mrmream-dotcom.github.io/Sable-circuit/og-image.png">
+  <meta name="twitter:image" content="https://sable-circuit.com/og-image.png">
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
@@ -43,13 +42,13 @@
     "@graph": [
       {
         "@type": "ProfessionalService",
-        "@id": "https://mrmream-dotcom.github.io/Sable-circuit/#organization",
+        "@id": "https://sable-circuit.com/#organization",
         "name": "Sable Circuit",
         "slogan": "Private Simulation Atelier",
         "description": "U.S.-based boutique studio offering design consulting, technical specification, supplier introductions and project coordination for private racing simulators, flight simulation suites and immersive technology rooms.",
-        "url": "https://mrmream-dotcom.github.io/Sable-circuit/",
-        "logo": "https://mrmream-dotcom.github.io/Sable-circuit/assets/brand/logo-512.png",
-        "image": "https://mrmream-dotcom.github.io/Sable-circuit/og-image.png",
+        "url": "https://sable-circuit.com/",
+        "logo": "https://sable-circuit.com/assets/brand/logo-512.png",
+        "image": "https://sable-circuit.com/og-image.png",
         "areaServed": [
           {"@type": "City", "name": "Dubai"},
           {"@type": "City", "name": "Abu Dhabi"},
@@ -70,10 +69,10 @@
       },
       {
         "@type": "WebSite",
-        "@id": "https://mrmream-dotcom.github.io/Sable-circuit/#website",
-        "url": "https://mrmream-dotcom.github.io/Sable-circuit/",
+        "@id": "https://sable-circuit.com/#website",
+        "url": "https://sable-circuit.com/",
         "name": "Sable Circuit",
-        "publisher": {"@id": "https://mrmream-dotcom.github.io/Sable-circuit/#organization"},
+        "publisher": {"@id": "https://sable-circuit.com/#organization"},
         "inLanguage": "en"
       }
     ]
@@ -90,6 +89,7 @@
        Option 3 — Fathom:
        <script src="https://cdn.usefathom.com/script.js" data-site="YOUR_SITE_ID" defer></script>
   -->
+  <script src="assets/js/tracking.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -315,7 +315,7 @@
           <input type="hidden" name="subject" value="[Sable Circuit Lead] New private inquiry">
           <input type="hidden" name="from_name" value="Sable Circuit website">
           <input type="hidden" name="form_type" value="Private inquiry">
-          <input type="hidden" name="redirect" value="https://mrmream-dotcom.github.io/Sable-circuit/thank-you/">
+          <input type="hidden" name="redirect" value="https://sable-circuit.com/thank-you/?form=inquiry">
           <p class="hp" aria-hidden="true"><label>Leave this unchecked <input type="checkbox" name="botcheck" tabindex="-1"></label></p>
           <div class="field"><label for="name">Your name</label><input id="name" name="name" type="text" required autocomplete="name" maxlength="120" placeholder="Full name"><span class="err">Please enter your name.</span></div>
           <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" maxlength="200" placeholder="you@example.com"><span class="err">Please enter a valid email address.</span></div>

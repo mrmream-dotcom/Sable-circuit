@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /thank-you/
 
-Sitemap: https://mrmream-dotcom.github.io/Sable-circuit/sitemap.xml
+Sitemap: https://sable-circuit.com/sitemap.xml

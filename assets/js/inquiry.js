@@ -65,11 +65,32 @@
   var redirectField = form.querySelector('input[name=redirect]');
   var baseSubject = subjectField ? subjectField.value : '[Sable Circuit Lead]';
 
-  // Point the no-JS redirect at this site's own thank-you page, wherever it is hosted
-  // (project subpath such as /sable-circuit/, or a custom domain later).
+  // Point the no-JS redirect at this site's own thank-you page (https://sable-circuit.com/thank-you/).
+  // Only the inquiry form adds form=inquiry, so a privacy request does not count as a conversion.
   var home = document.querySelector('a.mark');
+  var isInquiry = form.getAttribute('name') === 'inquiry';
   if (redirectField && home && window.URL) {
-    try { redirectField.value = new URL('thank-you/', home.href).href; } catch (e) { /* keep static value */ }
+    try {
+      var dest = new URL('thank-you/', home.href);
+      if (isInquiry) dest.searchParams.set('form', 'inquiry');
+      redirectField.value = dest.href;
+    } catch (e) { /* keep static value */ }
+  }
+
+  // One id per inquiry, shared by the success event and a later thank-you redirect.
+  function transactionId() {
+    var tx = (window.sableNewTransactionId && window.sableNewTransactionId()) ||
+      (Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12));
+    form.setAttribute('data-transaction-id', tx);
+    if (redirectField && window.URL) {
+      try {
+        var next = new URL(redirectField.value, window.location.href);
+        next.searchParams.set('form', 'inquiry');
+        next.searchParams.set('transaction_id', tx);
+        redirectField.value = next.href;
+      } catch (e) { /* keep the current redirect */ }
+    }
+    return tx;
   }
 
   function val(name) {
@@ -110,6 +131,7 @@
       return;
     }
     if (subjectField) subjectField.value = buildSubject();
+    var tx = isInquiry ? transactionId() : '';
     if (!window.fetch || !window.FormData) return; // fall back to a normal POST
 
     event.preventDefault();
@@ -126,6 +148,7 @@
     }).then(function (res) {
       return res.json().catch(function () { return { success: res.ok }; }).then(function (json) {
         if (res.ok && json && json.success) {
+          if (tx && window.sableTrackInquiry) window.sableTrackInquiry(tx);
           wrap.classList.add('sent');
           form.reset();
           if (success) success.focus();

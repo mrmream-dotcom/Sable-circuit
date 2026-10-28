@@ -1,6 +1,6 @@
 # Sable Circuit: deploy to GitHub Pages
 
-This is a plain static site. There is no build step and no framework. It is designed to be served from the **root of the `main` branch** of a GitHub repository. All internal links are relative, so it works on a project-site subpath such as `https://mrmream-dotcom.github.io/sable-circuit/` and also on a custom domain later.
+This is a plain static site. There is no build step and no framework. It is served from the **root of the `main` branch** at `https://sable-circuit.com`. All internal links are relative, so they resolve from the domain root.
 
 > Status: prepared locally and tested on a local server only. **Nothing has been deployed, and no form service account has been created yet.**
 
@@ -26,11 +26,11 @@ Helper scripts live **outside** the published folder, in `../tools/`:
 
 | Token | Where | Replace with |
 |---|---|---|
-| `SITE_URL` | og:image, JSON-LD, sitemap, robots, form `redirect`, 404 base | The live base URL **without** a trailing slash, e.g. `https://mrmream-dotcom.github.io/sable-circuit` |
+| `SITE_URL` | og:image, JSON-LD, sitemap, robots, form `redirect`, 404 base | The live base URL **without** a trailing slash: `https://sable-circuit.com` |
 | `WEB3FORMS_ACCESS_KEY` | `index.html`, `privacy/index.html` (hidden `access_key`) | The access key Web3Forms emails you (see the next section) |
 
 ```bash
-SITE_URL=https://mrmream-dotcom.github.io/sable-circuit \
+SITE_URL=https://sable-circuit.com \
 WEB3FORMS_KEY=paste-the-key-here \
 ../tools/replace_tokens.sh .        # run inside the site folder; prints any tokens left over
 ```
@@ -73,32 +73,31 @@ Free-plan limits, as published 27 Oct 2026:
    git branch -M main && git remote add origin https://github.com/mrmream-dotcom/sable-circuit.git && git push -u origin main
    ```
 3. On GitHub, go to **Settings → Pages → Build and deployment**. Set **Source: Deploy from a branch**, **Branch: `main` / `(root)`**, then **Save**.
-4. Wait about one minute, then open `https://mrmream-dotcom.github.io/sable-circuit/`. On the same page, tick **Enforce HTTPS** once it becomes available.
+4. Wait about one minute, then open `https://sable-circuit.com/`. On the same page, tick **Enforce HTTPS** once it becomes available.
 5. Test the live site:
    - Send one real inquiry. You should receive the email with the `[Sable Circuit Lead]` subject. With JavaScript you get the inline success state; with JavaScript disabled you land on `/thank-you/`.
-   - Open a missing URL (e.g. `/sable-circuit/x/y`) and check that the styled 404 page appears with working links.
+   - Open a missing URL (e.g. `/x/y`) and check that the styled 404 page appears with working links.
    - Paste the home URL into a social-card preview tool to check the OG image.
 
 Everything in the repository is public. That is why the personal email and the deployment notes with private details are kept out of these files.
 
-## Custom domain later
+## Custom domain
 
-1. Buy the domain. The candidates are in the separate brand/domain report.
-2. Add it under Settings → Pages → Custom domain. GitHub creates a `CNAME` file.
-3. Point DNS at GitHub Pages: `A` records `185.199.108.153`, `.109.153`, `.110.153`, `.111.153`, plus a `CNAME` for `www` to `mrmream-dotcom.github.io`.
-4. Re-run `replace_tokens.sh` with the new `SITE_URL`. Start from a copy with the tokens restored, e.g. `git checkout` of the tokenised commit, or use `sed` to swap the old URL for the new one.
-5. Uncomment the canonical tag in `index.html`.
-6. Note that `robots.txt` and `sitemap.xml` are only honoured at a domain root. On a `github.io` **project** subpath they are not read as the site's robots file. They become effective with a custom domain. `thank-you/` also carries `noindex`.
+The live site is `https://sable-circuit.com`. GitHub Pages publishes the root of `main`, and the `CNAME` file in that root contains `sable-circuit.com`. DNS points the apex at the GitHub Pages `A` records (`185.199.108.153`, `.109.153`, `.110.153`, `.111.153`) and `www` at `mrmream-dotcom.github.io`.
+
+Absolute URLs — canonical, Open Graph, JSON-LD, `sitemap.xml`, `robots.txt`, form `redirect` values, and the 404 `<base>` — use `https://sable-circuit.com`. Internal links and assets stay relative, so they resolve from the domain root. `robots.txt` and `sitemap.xml` are honoured at that root. `thank-you/` carries `noindex`.
 
 ## Security headers
 
 GitHub Pages cannot set custom HTTP headers. Instead:
 
-- Each page carries a `<meta http-equiv="Content-Security-Policy">`. It allows only same-origin assets plus `api.web3forms.com` for `connect-src` and `form-action`.
+- Each page carries a `<meta http-equiv="Content-Security-Policy">`. It allows same-origin assets, `api.web3forms.com` for the inquiry form, the Google Ads tag hosts, and the OpenAI measurement pixel (`bzrcdn.openai.com`, `bzr.openai.com`).
 - Each page also carries a `referrer` meta tag.
 - HTTPS and HSTS come from GitHub on `github.io`.
 - `frame-ancestors`, `X-Frame-Options` and `Permissions-Policy` cannot be set from a meta tag. If they are needed, put a CDN such as Cloudflare in front of a custom domain.
 
 ## Analytics
 
-None is active and nothing phones home. A commented **ANALYTICS SLOT** in `<head>` of `index.html` lists options. Update the privacy notice and the CSP before you enable one.
+The commented **ANALYTICS SLOT** in `<head>` of `index.html` is still unused.
+
+`assets/js/tracking.js` measures a successful private inquiry (not a privacy request). OpenAI's pixel (`DwnbT2kvDPPGfaAL5TMMJH`) sends `lead_created`. Google Ads is active: tag `AW-18541109360`, label `4mJICJuA_KsdEPDAi4lF`, value 1.0 USD. The same id is the Google `transaction_id` and the OpenAI `event_id`. The thank-you page counts a no-JS inquiry once, then removes `?form=inquiry` so a reload does not count again. The privacy notice describes this.
