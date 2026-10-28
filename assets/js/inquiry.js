@@ -65,8 +65,7 @@
   var redirectField = form.querySelector('input[name=redirect]');
   var baseSubject = subjectField ? subjectField.value : '[Sable Circuit Lead]';
 
-  // Point the no-JS redirect at this site's own thank-you page, wherever it is hosted
-  // (project subpath such as /sable-circuit/, or a custom domain later).
+  // Point the no-JS redirect at this site's own thank-you page (https://sable-circuit.com/thank-you/).
   var home = document.querySelector('a.mark');
   if (redirectField && home && window.URL) {
     try { redirectField.value = new URL('thank-you/', home.href).href; } catch (e) { /* keep static value */ }
