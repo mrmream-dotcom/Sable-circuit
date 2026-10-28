@@ -148,7 +148,7 @@ section.alt{background:#101215}
 .form-help{font-size:12px;color:#77736d;margin:0}
 .status{grid-column:1 / -1;font-size:14px;margin:0}
 .status.error{color:#9b2c1f}
-.hp{position:absolute!important;left:-10000px!important;width:1px;height:1px;overflow:hidden}
+.hp{display:none!important;position:absolute!important;left:-10000px!important;width:1px;height:1px;overflow:hidden}
 .success{display:none;border:1px solid #b08550;background:#f4efe6;padding:34px 32px}
 .success h3{font:700 26px/1.2 Manrope,sans-serif;letter-spacing:-.03em;margin:12px 0 10px;color:var(--ink)}
 .success p{color:#5a5752;font-size:14px;line-height:1.8;margin:0 0 10px}

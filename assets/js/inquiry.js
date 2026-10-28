@@ -1,6 +1,8 @@
 /* Sable Circuit — inquiry / privacy-request forms: validation + progressive-enhancement submit to Web3Forms.
    Without JavaScript the form posts normally to https://api.web3forms.com/submit, which then redirects to
-   the "redirect" field (SITE_URL/thank-you/). With JavaScript we send JSON and show an inline success state. */
+   the "redirect" field (SITE_URL/thank-you/). The browser then enforces required name and email.
+   With JavaScript we validate first (including programmatic form.submit()), send JSON, and show an
+   inline success state. Conversion tracking runs only after Web3Forms accepts the inquiry. */
 (function () {
   'use strict';
 
@@ -16,8 +18,13 @@
   if (!form) return;
   var wrap = document.getElementById('form-wrap');
   var status = document.getElementById('status');
-  var submit = document.getElementById('submit');
+  // Look up the button inside the form. An id of "submit" would replace form.submit.
+  var submit = form.querySelector('button[type="submit"]');
   var success = document.getElementById('success');
+
+  // The HTML leaves native constraint validation on for no-JS posts. With this script running,
+  // inline field errors replace the browser tooltip.
+  form.noValidate = true;
 
   // Pre-select a service / role when a CTA with data attributes is used.
   document.querySelectorAll('a[data-service], a[data-role]').forEach(function (a) {
@@ -33,13 +40,38 @@
 
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+  function namedControl(name) {
+    var el = form.elements[name];
+    if (!el) return null;
+    // A radio/checkbox group is a collection, not a single control.
+    if (typeof el.length === 'number' && !el.tagName) return el[0] || null;
+    return el;
+  }
+
   function fieldOk(el) {
-    var v = (el.value || '').trim();
-    if (el.type === 'checkbox') return el.checked;
+    if (!el || el.name === 'botcheck') return true;
+    var v = String(el.value || '').trim();
+    if (el.type === 'checkbox') return el.required ? el.checked : true;
+    // Name and email are mandatory even if the required attribute is removed.
+    if (el.name === 'name') return v.length > 0;
+    if (el.name === 'email' || el.type === 'email') return EMAIL_RE.test(v);
     if (el.required && !v) return false;
-    if (el.type === 'email' && v && !EMAIL_RE.test(v)) return false;
     if (el.minLength > 0 && v && v.length < el.minLength) return false;
     return true;
+  }
+
+  // Hard gate: a submission with no name or no valid email never leaves the browser.
+  function identityGate() {
+    var nameEl = namedControl('name');
+    var emailEl = namedControl('email');
+    var nameOk = !!(nameEl && fieldOk(nameEl));
+    var emailOk = !!(emailEl && fieldOk(emailEl));
+    if (nameEl) mark(nameEl);
+    if (emailEl) mark(emailEl);
+    return {
+      ok: nameOk && emailOk,
+      focus: !nameOk ? nameEl : (emailOk ? null : emailEl)
+    };
   }
 
   function mark(el) {
@@ -104,61 +136,90 @@
     return (baseSubject + (bits.length ? ' — ' + bits.join(' · ') : '')).slice(0, 180);
   }
 
-  function fail(msg) {
+  function setStatus(msg, isError) {
+    if (!status) return;
     status.textContent = msg;
-    status.className = 'status error';
-    submit.disabled = false;
-    submit.textContent = submitLabel;
+    status.className = isError ? 'status error' : 'status';
+  }
+
+  function fail(msg) {
+    setStatus(msg, true);
+    if (submit) {
+      submit.disabled = false;
+      submit.textContent = submitLabel;
+    }
   }
 
   var submitLabel = submit ? submit.textContent : 'Send';
+  var nativeSubmit = HTMLFormElement.prototype.submit;
 
   form.addEventListener('submit', function (event) {
-    status.textContent = '';
-    status.className = 'status';
-    var firstBad = null;
-    controls.forEach(function (el) { if (!mark(el) && !firstBad) firstBad = el; });
-    if (firstBad) {
-      event.preventDefault();
-      status.textContent = 'Please complete the highlighted fields.';
-      status.className = 'status error';
-      firstBad.focus();
-      return;
-    }
-    if (keyField && keyField.value === PLACEHOLDER) {
-      event.preventDefault();
-      fail('This form is not connected yet. Please try again soon.');
-      return;
-    }
-    if (subjectField) subjectField.value = buildSubject();
-    var tx = isInquiry ? transactionId() : '';
-    if (!window.fetch || !window.FormData) return; // fall back to a normal POST
+    var passed = false;
+    try {
+      setStatus('', false);
+      var identity = identityGate();
+      var firstBad = identity.ok ? null : (identity.focus || namedControl('name') || namedControl('email'));
+      controls.forEach(function (el) { if (!mark(el) && !firstBad) firstBad = el; });
+      if (!identity.ok || firstBad) {
+        event.preventDefault();
+        setStatus('Please complete the highlighted fields.', true);
+        if (firstBad && firstBad.focus) firstBad.focus();
+        return;
+      }
+      passed = true;
+      if (keyField && keyField.value === PLACEHOLDER) {
+        event.preventDefault();
+        fail('This form is not connected yet. Please try again soon.');
+        return;
+      }
+      if (subjectField) subjectField.value = buildSubject();
+      var tx = isInquiry ? transactionId() : '';
+      if (!window.fetch || !window.FormData) return; // fall back to a normal POST
 
-    event.preventDefault();
-    submit.disabled = true;
-    submit.textContent = 'Sending…';
-    var data = {};
-    new FormData(form).forEach(function (value, key) { data[key] = value; });
-    delete data.redirect; // JSON submissions get a JSON reply instead of a redirect
+      event.preventDefault();
+      if (submit) {
+        submit.disabled = true;
+        submit.textContent = 'Sending…';
+      }
+      var data = {};
+      new FormData(form).forEach(function (value, key) { data[key] = value; });
+      delete data.redirect; // JSON submissions get a JSON reply instead of a redirect
+      // Unchecked honeypot stays out of the payload. A checked box is "on", which Web3Forms rejects.
 
-    fetch(form.action, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(data)
-    }).then(function (res) {
-      return res.json().catch(function () { return { success: res.ok }; }).then(function (json) {
-        if (res.ok && json && json.success) {
-          if (tx && window.sableTrackInquiry) window.sableTrackInquiry(tx);
-          wrap.classList.add('sent');
-          form.reset();
-          if (success) success.focus();
-        } else {
-          fail('Sorry, your message could not be sent. Please check the form and try again in a few minutes.');
-        }
+      fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (res) {
+        return res.json().catch(function () { return { success: res.ok }; }).then(function (json) {
+          if (res.ok && json && json.success) {
+            if (tx && window.sableTrackInquiry) window.sableTrackInquiry(tx);
+            if (wrap) wrap.classList.add('sent');
+            form.reset();
+            if (success) success.focus();
+          } else {
+            fail('Sorry, your message could not be sent. Please check the form and try again in a few minutes.');
+          }
+        });
+      }).catch(function () {
+        // Network problem (or fetch blocked): fall back to a regular POST so the lead is not lost.
+        // Validation has already passed. Call the prototype so this does not re-enter the handler.
+        nativeSubmit.call(form);
       });
-    }).catch(function () {
-      // Network problem (or fetch blocked): fall back to a regular POST so the lead is not lost.
-      HTMLFormElement.prototype.submit.call(form);
-    });
+    } catch (err) {
+      // A throw before the gate passed must not fall through to a native blank post.
+      if (!passed) event.preventDefault();
+    }
   });
+
+  // form.submit() and HTMLFormElement.prototype.submit.call(form) skip the submit event
+  // and HTML constraint validation. Route them through requestSubmit so a blank call
+  // still hits the handler. The network fallback keeps the original method.
+  HTMLFormElement.prototype.submit = function () {
+    if (this === form && typeof this.requestSubmit === 'function') {
+      this.requestSubmit();
+      return;
+    }
+    return nativeSubmit.call(this);
+  };
 })();
