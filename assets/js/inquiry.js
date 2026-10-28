@@ -66,13 +66,13 @@
   var baseSubject = subjectField ? subjectField.value : '[Sable Circuit Lead]';
 
   // Point the no-JS redirect at this site's own thank-you page (https://sable-circuit.com/thank-you/).
-  // Inquiry submissions carry lead=1 so the thank-you page can record the conversion.
+  // Only the inquiry form adds form=inquiry, so a privacy request does not count as a conversion.
   var home = document.querySelector('a.mark');
   var isInquiry = form.getAttribute('name') === 'inquiry';
   if (redirectField && home && window.URL) {
     try {
       var dest = new URL('thank-you/', home.href);
-      if (isInquiry) dest.searchParams.set('lead', '1');
+      if (isInquiry) dest.searchParams.set('form', 'inquiry');
       redirectField.value = dest.href;
     } catch (e) { /* keep static value */ }
   }
@@ -85,7 +85,7 @@
     if (redirectField && window.URL) {
       try {
         var next = new URL(redirectField.value, window.location.href);
-        next.searchParams.set('lead', '1');
+        next.searchParams.set('form', 'inquiry');
         next.searchParams.set('transaction_id', tx);
         redirectField.value = next.href;
       } catch (e) { /* keep the current redirect */ }
