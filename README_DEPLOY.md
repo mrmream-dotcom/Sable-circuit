@@ -91,11 +91,11 @@ Absolute URLs — canonical, Open Graph, JSON-LD, `sitemap.xml`, `robots.txt`, f
 
 GitHub Pages cannot set custom HTTP headers. Instead:
 
-- Each page carries a `<meta http-equiv="Content-Security-Policy">`. It allows only same-origin assets plus `api.web3forms.com` for `connect-src` and `form-action`.
+- Each page carries a `<meta http-equiv="Content-Security-Policy">`. It allows same-origin assets, `api.web3forms.com` for the inquiry form, and the Google Ads tag hosts (`googletagmanager.com`, `googleadservices.com`, `googleads.g.doubleclick.net`, `ad.doubleclick.net`, `google.com`, `pagead2.googlesyndication.com`, `td.doubleclick.net`).
 - Each page also carries a `referrer` meta tag.
 - HTTPS and HSTS come from GitHub on `github.io`.
 - `frame-ancestors`, `X-Frame-Options` and `Permissions-Policy` cannot be set from a meta tag. If they are needed, put a CDN such as Cloudflare in front of a custom domain.
 
 ## Analytics
 
-None is active and nothing phones home. A commented **ANALYTICS SLOT** in `<head>` of `index.html` lists options. Update the privacy notice and the CSP before you enable one.
+The commented **ANALYTICS SLOT** in `<head>` of `index.html` is still unused. Google Ads conversion measurement is active: each page loads `https://www.googletagmanager.com/gtag/js?id=AW-18541109360`. A conversion (`AW-18541109360/4mJICJuA_KsdEPDAi4lF`, value 1.0 USD) is sent only after a successful private inquiry, with one transaction id shared by the inline success event and the thank-you redirect. The privacy notice describes this.
