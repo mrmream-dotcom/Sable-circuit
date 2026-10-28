@@ -100,4 +100,4 @@ GitHub Pages cannot set custom HTTP headers. Instead:
 
 The commented **ANALYTICS SLOT** in `<head>` of `index.html` is still unused.
 
-`assets/js/tracking.js` measures a successful private inquiry (not a privacy request). OpenAI's pixel (`DwnbT2kvDPPGfaAL5TMMJH`) sends `lead_created`. Google Ads is wired but skipped until `AW_CONVERSION_ID` and `AW_CONVERSION_LABEL` at the top of that file are both filled in. The same id is the Google `transaction_id` and the OpenAI `event_id`. The thank-you page counts a no-JS inquiry once, then removes `?form=inquiry` so a reload does not count again. The privacy notice describes this.
+`assets/js/tracking.js` measures a successful private inquiry (not a privacy request). OpenAI's pixel (`DwnbT2kvDPPGfaAL5TMMJH`) sends `lead_created`. Google Ads is active: tag `AW-18541109360`, label `4mJICJuA_KsdEPDAi4lF`, value 1.0 USD. The same id is the Google `transaction_id` and the OpenAI `event_id`. The thank-you page counts a no-JS inquiry once, then removes `?form=inquiry` so a reload does not count again. The privacy notice describes this.

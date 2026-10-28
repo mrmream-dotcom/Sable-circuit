@@ -1,14 +1,12 @@
 /* Inquiry conversion measurement.
-   Google Ads stays off until both values below are filled in.
-   Paste the Google tag ID (AW-…) and the conversion label from
-   Google Ads > Goals > Conversions > Sable Circuit Inquiry Form Submit > Tag setup.
+   Google Ads and OpenAI share one id per successful inquiry.
    send_to is AW_CONVERSION_ID + "/" + AW_CONVERSION_LABEL.
-   The same id is the Google transaction_id and the OpenAI event_id. */
+   Clearing either Google constant turns the Google tag off. */
 (function (w, d) {
   'use strict';
 
-  var AW_CONVERSION_ID = '';
-  var AW_CONVERSION_LABEL = '';
+  var AW_CONVERSION_ID = 'AW-18541109360';
+  var AW_CONVERSION_LABEL = '4mJICJuA_KsdEPDAi4lF';
   var OAI_PIXEL_ID = 'DwnbT2kvDPPGfaAL5TMMJH';
 
   function googleConfigured() {
